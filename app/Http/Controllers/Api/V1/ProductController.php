@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductCollection;
 
 
 class ProductController
@@ -15,7 +14,7 @@ class ProductController
      */
     public function index()
     {
-        return new ProductCollection(
+        return ProductResource::collection(
             Product::with(['brand', 'category'])->cursorPaginate(5)
         );
     }
