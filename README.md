@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Laravel 13 Example API
+# Laravel 13 API Development with JSON:API - Spatie Queery Builder - Scramble API Docs
 ## Installation Steps
 1. **Clone the Repository**
    ```bash
@@ -359,3 +359,14 @@ sort / order by price descending (additional "-" means descending)
   }
 }
 ```
+
+## Scramble – Laravel OpenAPI (Swagger) Documentation Generator
+https://scramble.dedoc.co/
+
+Scramble is OpenAPI (Swagger) documentation generator for Laravel. It generates API documentation for your project automatically without requiring you to manually write PHPDoc annotations.
+
+### UI View
+{{url}}/docs/api
+
+### Open API Document in JSON Format
+{{url}}/docs/api.json

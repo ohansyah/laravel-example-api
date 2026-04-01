@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\ProductJsonApiResource;
 use App\Models\Product;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\QueryParameter;
+use Dedoc\Scramble\Attributes\Response;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
@@ -14,6 +17,20 @@ class ProductJsonApiResourceController
     /**
      * Display a listing of the resource.
      */
+    #[Endpoint(
+        title: 'List products (JSON:API)',
+        description: 'Returns a paginated JSON:API list of products with filtering, sorting, and includes.'
+    )]
+    #[QueryParameter('filter[brand_id]', 'Filter by brand id.', type: 'integer', example: 1)]
+    #[QueryParameter('filter[category_id]', 'Filter by category id.', type: 'integer', example: 1)]
+    #[QueryParameter('filter[name]', 'Partial match by product name.', type: 'string', example: 'milk')]
+    #[QueryParameter('filter[barcode]', 'Exact match by barcode.', type: 'string', example: '1234567890123')]
+    #[QueryParameter('filter[sku]', 'Exact match by SKU.', type: 'string', example: 'SKU-001')]
+    #[QueryParameter('filter[price]', 'Dynamic operator filter for price (for example 500, >500, >=500, <500, <=500).', type: 'string', example: '>500')]
+    #[QueryParameter('sort', 'Sort by price or views. Prefix with - for descending.', type: 'string', example: '-price')]
+    #[QueryParameter('include', 'Comma-separated relationships to include: brand,category.', type: 'string', example: 'brand,category')]
+    #[QueryParameter('cursor', 'Cursor for pagination.', type: 'string')]
+    #[Response(200, 'Successful response.')]
     public function index(Request $request)
     {
         $products = QueryBuilder::for(Product::class)
@@ -45,6 +62,12 @@ class ProductJsonApiResourceController
     /**
      * Display the specified resource.
      */
+    #[Endpoint(
+        title: 'Show product (JSON:API)',
+        description: 'Returns a single product by id in JSON:API format.'
+    )]
+    #[Response(200, 'Successful response.')]
+    #[Response(404, 'Product not found.')]
     public function show(Product $products_json_api)
     {
         return new ProductJsonApiResource($products_json_api);
