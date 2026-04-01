@@ -198,7 +198,7 @@ JSON:API resources support sparse fieldsets, allowing clients to request only sp
 ```
 {{url}}/api/v1/products-json-api/1?fields[product_json_apis]=name,barcode,price
 ```
-This will reeturn only attribute name, barcode and price.
+This will return only attribute name, barcode and price.
 ```json
 {
   "data": {
@@ -213,9 +213,149 @@ This will reeturn only attribute name, barcode and price.
 }
 ```
 
+## SPATIE QUERY BUILDER
+https://spatie.be/docs/laravel-query-builder/v7/introduction
 
+Spatie Query Builder allow you to filter, sort and include eloquent relations based on a request. The QueryBuilder used in this package extends Laravel's default Eloquent builder. This means all your favorite methods and macros are still available. Query parameter names follow the JSON API specification as closely as possible. 
+
+So it's kind a team effort JSON:API Resources and Spatie query builder on top of that and laravel ties all together.
 
 
 ### FILTER
+```
+{{url}}/api/v1/products-json-api?filter[price]=>500&filter[name]=qui
+```
+Filter price greater than 500 and name contain "qui"
+```json
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 7,
+        "category_id": 10,
+        "name": "qui",
+        "barcode": "9183620038675",
+        "sku": "oel-96684721",
+        "price": "980.81",
+        "views": 0
+      }
+    },
+    {
+      "id": "3",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 6,
+        "category_id": 9,
+        "name": "quidem",
+        "barcode": "2236173505563",
+        "sku": "wqt-57998525",
+        "price": "984.84",
+        "views": 0
+      }
+    }
+  ],
+  "links": {
+    "first": null,
+    "last": null,
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "path": "http://127.0.0.1:8000/api/v1/products-json-api",
+    "per_page": 5,
+    "next_cursor": null,
+    "prev_cursor": null
+  }
+}
+```
 
 ### SORT
+```
+{{url}}/api/v1/products-json-api?sort=-price
+```
+sort / order by price descending (additional "-" means descending)
+```json
+{
+  "data": [
+    {
+      "id": "31",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 8,
+        "category_id": 2,
+        "name": "nemo",
+        "barcode": "8555333009760",
+        "sku": "utz-59021301",
+        "price": "989.70",
+        "views": 0
+      }
+    },
+    {
+      "id": "3",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 6,
+        "category_id": 9,
+        "name": "quidem",
+        "barcode": "2236173505563",
+        "sku": "wqt-57998525",
+        "price": "984.84",
+        "views": 0
+      }
+    },
+    {
+      "id": "48",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 5,
+        "category_id": 8,
+        "name": "culpa",
+        "barcode": "8714165044855",
+        "sku": "vsn-87397068",
+        "price": "982.72",
+        "views": 0
+      }
+    },
+    {
+      "id": "1",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 7,
+        "category_id": 10,
+        "name": "qui",
+        "barcode": "9183620038675",
+        "sku": "oel-96684721",
+        "price": "980.81",
+        "views": 0
+      }
+    },
+    {
+      "id": "37",
+      "type": "product_json_apis",
+      "attributes": {
+        "brand_id": 3,
+        "category_id": 9,
+        "name": "eos",
+        "barcode": "1807340380477",
+        "sku": "wgp-30547264",
+        "price": "980.80",
+        "views": 0
+      }
+    }
+  ],
+  "links": {
+    "first": null,
+    "last": null,
+    "prev": null,
+    "next": "http://127.0.0.1:8000/api/v1/products-json-api?sort=-price&cursor=eyJwcmljZSI6Ijk4MC44MCIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+  },
+  "meta": {
+    "path": "http://127.0.0.1:8000/api/v1/products-json-api",
+    "per_page": 5,
+    "next_cursor": "eyJwcmljZSI6Ijk4MC44MCIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+    "prev_cursor": null
+  }
+}
+```

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\ProductJsonApiResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Resources\ProductJsonApiResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Enums\FilterOperator;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductJsonApiResourceController
 {
@@ -13,11 +16,22 @@ class ProductJsonApiResourceController
      */
     public function index(Request $request)
     {
-        return ProductJsonApiResource::collection(
-            Product::with(['brand', 'category'])
-                ->cursorPaginate(5)
-                ->withQueryString()
-        );
+        $products = QueryBuilder::for(Product::class)
+            ->allowedFilters(
+                AllowedFilter::exact('brand_id'),
+                AllowedFilter::exact('category_id'),
+                AllowedFilter::partial('name'),
+                AllowedFilter::exact('barcode'),
+                AllowedFilter::exact('sku'),
+                AllowedFilter::operator('price', FilterOperator::DYNAMIC),
+            )
+            ->allowedSorts('price', 'views')
+            ->allowedIncludes('brand', 'category')
+            ->with(['brand', 'category'])
+            ->cursorPaginate(5)
+            ->withQueryString();
+
+        return ProductJsonApiResource::collection($products);
     }
 
     /**
