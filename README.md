@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Laravel 13 API Development with JSON:API - Spatie Queery Builder - Scramble API Docs
+# Laravel 13 API Development with JSON:API - Spatie Query Builder - Scramble API Docs
 ## Installation Steps
 1. **Clone the Repository**
    ```bash
