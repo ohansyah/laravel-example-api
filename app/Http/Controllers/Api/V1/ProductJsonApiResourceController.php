@@ -30,7 +30,31 @@ class ProductJsonApiResourceController
     #[QueryParameter('sort', 'Sort by price or views. Prefix with - for descending.', type: 'string', example: '-price')]
     #[QueryParameter('include', 'Comma-separated relationships to include: brand,category.', type: 'string', example: 'brand,category')]
     #[QueryParameter('cursor', 'Cursor for pagination.', type: 'string')]
-    #[Response(200, 'Successful response.')]
+    #[Response(200, 'Successful response.', examples: [
+        [
+            'data' => [
+                [
+                    'id' => '1',
+                    'type' => 'product_json_apis',
+                    'attributes' => [
+                        'brand_id' => 7,
+                        'category_id' => 10,
+                        'name' => 'qui',
+                        'barcode' => '9183620038675',
+                        'sku' => 'oel-96684721',
+                        'price' => '980.81',
+                        'views' => 0,
+                    ],
+                ],
+            ],
+            'links' => [
+                'first' => '/api/v1/products?cursor=abc123',
+                'next' => '/api/v1/products?cursor=def456',
+                'prev' => null,
+                'last' => '/api/v1/products?cursor=xyz789',
+            ],
+        ],
+    ])]
     public function index(Request $request)
     {
         $products = QueryBuilder::for(Product::class)
@@ -66,8 +90,30 @@ class ProductJsonApiResourceController
         title: 'Show product (JSON:API)',
         description: 'Returns a single product by id in JSON:API format.'
     )]
-    #[Response(200, 'Successful response.')]
-    #[Response(404, 'Product not found.')]
+    #[Response(200, 'Successful response.', examples: [
+        [
+            'data' => [
+                'id' => '1',
+                'type' => 'product_json_apis',
+                'attributes' => [
+                    'brand_id' => 7,
+                    'category_id' => 10,
+                    'name' => 'qui',
+                    'barcode' => '9183620038675',
+                    'sku' => 'oel-96684721',
+                    'price' => '980.81',
+                    'views' => 0,
+                ],
+            ],
+        ],
+    ])]
+    #[Response(404, 'Product not found.', examples: [
+        [
+            'message' => 'Resource not found.',
+            'status' => 'error',
+            'code' => 404,
+        ],
+    ])]
     public function show(Product $products_json_api)
     {
         return new ProductJsonApiResource($products_json_api);
